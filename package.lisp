@@ -22,7 +22,9 @@
            #:make-mandelbrot
            #:complex-window
 
-           #:zoom-window
+           #:complex-window
+           #:window-from-min-max
+           #:window-from-center-radius
            #:imag-max
            #:imag-min
            #:real-max

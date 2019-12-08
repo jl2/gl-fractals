@@ -1,4 +1,4 @@
-;;;; gl-fractals.test.asd 
+;;;; gl-fractals.test.asd
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -26,10 +26,10 @@
   :license  "ISC"
   :version "0.0.1"
   :serial t
-  :depends-on ( :gl-fractals
-                  :fiveam)
-  
+  :depends-on (:gl-fractals
+               :fiveam)
+
   :components ((:module "t"
-                        :components 
+                        :components
                         ((:file "package"))))
   :perform (test-op :after (op c) (eval (read-from-string "(every #'fiveam::TEST-PASSED-P (5am:run :gl-fractals))"))))

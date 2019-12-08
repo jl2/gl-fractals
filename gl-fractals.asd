@@ -30,6 +30,7 @@
                #:cl-opengl)
   :components ((:file "package")
                (:file "gl-fractals")
+               (:file "complex-window")
                (:file "complex-fractal")
                (:file "mandelbrot"))
   :in-order-to ((test-op (test-op gl-fractals.test))))

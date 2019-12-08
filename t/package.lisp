@@ -27,5 +27,32 @@
 (def-suite :gl-fractals)
 (in-suite :gl-fractals)
 
-(test hello
-  (is-true (hello)))
+(defun near (a b &optional (tol 0.0000001))
+  (< (abs (- a b)) tol))
+
+(test complex-window
+  (let ((default-window (make-instance 'complex-window)))
+    (is (= (real-min default-window) -4.0))
+    (is (= (real-max default-window) 2.0))
+    (is (= (imag-min default-window) -3.0))
+    (is (= (imag-max default-window) 3.0)))
+
+  (let ((default-window (make-instance 'complex-window)))
+    (multiple-value-bind (real-min real-max imag-min imag-max) (gl-fractals::compute-min-max default-window)
+      (is (= real-min -4.0))
+      (is (= real-max 2.0))
+      (is (= imag-min -3.0))
+      (is (= imag-max 3.0))))
+
+  (let ((window (gl-fractals::window-from-vertices #(-1.0f0 1.0f0 0.0f0 -1.1581888f0 -0.30270645f0
+                                                     -1.0f0 -1.0f0 0.0f0 -1.1581888f0 -0.3111232f0
+                                                     1.0f0 1.0f0 0.0f0 -1.1485512f0 -0.30270645f0
+                                                     1.0f0 -1.0f0 0.0f0 -1.1485512f0 -0.3111232f0))))
+
+    (multiple-value-bind (real-min real-max imag-min imag-max) (gl-fractals::compute-min-max window)
+      (is (near -1.1581888f0 real-min))
+      (is (near -1.1485512f0 real-max))
+      (is (near -0.3111232f0 imag-min))
+      (is (near -0.30270645f0 imag-max))))
+
+  )
