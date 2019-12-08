@@ -1,6 +1,20 @@
 * gl-fractals
 ** About
-Draw fractals using OpenGL and the newgl library.
+View fractals using OpenGL and the [[https://github.com/jl2/newgl][newgl]] library.
+
+** Opening the Viewer
+
+#+BEGIN_SRC lisp
+(ql:quickload :gl-fractals)
+(gl-fractals:show-mandelbrot)
+#+END_SRC
+
+#+RESULTS:
+: #<SIMPLE-TASKS:CALL-TASK :FUNC #<CLOSURE (LAMBDA () :IN NEWGL:VIEWER) {1005D9117B}> :STATUS :SCHEDULED {1005D911E3}>
+
+** Examples
+For an example, see the [gl-fractals](https://github.com/jl2/gl-fractals) repository.
+
 
 ** License
 ISC
