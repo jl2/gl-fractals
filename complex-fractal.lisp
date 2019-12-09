@@ -4,56 +4,30 @@
 
 (in-package #:gl-fractals)
 
-(defclass complex-fractal (newgl:opengl-object)
-  ((vertices :initarg :vertices)
-   (zoom-window :initarg :zoom-window)
-   (indices :initform (make-array
+(defclass complex-fractal (newgl:vertex-object)
+  ((newgl:vertices :initarg :vertices)
+   (newgl:indices :initform (make-array
                        6
                        :element-type 'fixnum
-                       :initial-contents '(0 1 2 1 3 2))))
+                       :initial-contents '(0 1 2 1 3 2)))
+   (zoom-window :initarg :zoom-window))
   (:documentation "Base class for fractals iterated on the complex plane."))
 
-(defmethod newgl:fill-buffers ((object complex-fractal))
-  (call-next-method)
-  (with-slots (newgl:vbos newgl:ebos vertices indices) object
-    (cond ((null newgl:vbos)
-           (setf newgl:vbos (gl:gen-buffers 1))
-           (setf newgl:ebos (gl:gen-buffers 1))
-           (let ((gl-vertices (newgl:to-gl-float-array vertices))
-                 (gl-indices (newgl:to-gl-array indices :unsigned-int)))
-
-             (gl:bind-buffer :array-buffer (car newgl:vbos))
-             (gl:buffer-data :array-buffer :dynamic-draw gl-vertices)
-             (gl:free-gl-array gl-vertices)
-
-             (gl:bind-buffer :element-array-buffer (car newgl:ebos))
-             (gl:buffer-data :element-array-buffer :dynamic-draw gl-indices)
-             (gl:free-gl-array gl-indices)))
-          (t
-           (gl:bind-buffer :array-buffer (car newgl:vbos))
-           (gl:bind-buffer :element-array-buffer (car newgl:ebos))))))
-
-(defmethod newgl:render ((object complex-fractal))
-  (with-slots (indices) object
-    (gl:polygon-mode :front-and-back :fill)
-    (gl:draw-elements :triangles (gl:make-null-gl-array :unsigned-int) :count (length indices))))
-
-
 (defun zoom-complex-fractal-window (scale cpos fractal)
-  (with-slots (vertices zoom-window) fractal
+  (with-slots (newgl:vertices zoom-window) fractal
     (with-slots (center radius) zoom-window
       (let* ((new-radius (* radius scale))
              (new-center (cursor-position-to-complex cpos zoom-window)))
         (setf center new-center
               radius new-radius)))
-    (setf vertices (to-vertices zoom-window))))
+    (setf newgl:vertices (to-vertices zoom-window))))
 
 (defun pan-complex-fractal-window (offset-percent fractal)
-  (with-slots (vertices zoom-window) fractal
+  (with-slots (newgl:vertices zoom-window) fractal
     (with-slots (radius center) zoom-window
       (incf center (complex (* (realpart radius) (realpart offset-percent))
                             (* (imagpart radius) (imagpart offset-percent)))))
-    (setf vertices (to-vertices zoom-window))))
+    (setf newgl:vertices (to-vertices zoom-window))))
 
 (defmethod newgl:handle-key ((object complex-fractal) window key scancode action mod-keys)
   (declare (ignorable window key scancode action mod-keys))
@@ -63,13 +37,13 @@
          (window-center (mapcar (rcurry #'/ 2.0) (glfw:get-window-size)))
          (need-reload
           (cond ((and (eq key :f5) (eq action :press))
-                 (with-slots (vertices zoom-window) object
+                 (with-slots (newgl:vertices zoom-window) object
                    (setf zoom-window (make-instance 'complex-window))
-                   (setf vertices (to-vertices zoom-window))))
+                   (setf newgl:vertices (to-vertices zoom-window))))
 
                  ((and (eq key :m) (eq action :press))
-                 (with-slots (vertices) object
-                   (format t "(newgl:viewer :objects (newgl:make-complex-fractal :window ~a))~%" vertices))
+                 (with-slots (newgl:vertices) object
+                   (format t "(newgl:viewer :objects (newgl:make-complex-fractal :window ~a))~%" newgl:vertices))
                  t)
 
                  ((and (eq key :page-down)  (or (eq action :press) (eq action :repeat)))
@@ -126,12 +100,12 @@
 (defmethod newgl:handle-drag ((object complex-fractal) window (click complex-fractal-click) cursor-pos)
   (declare (ignorable window))
 
-  (with-slots (vertices zoom-window) object
+  (with-slots (newgl:vertices zoom-window) object
     (with-slots (center radius) zoom-window
       (incf center (- (cursor-position-to-complex (slot-value newgl:*previous-mouse-drag* 'newgl:cursor-pos)
                                                   zoom-window)
                       (cursor-position-to-complex cursor-pos zoom-window))))
-    (setf vertices (to-vertices zoom-window))
+    (setf newgl:vertices (to-vertices zoom-window))
     (newgl:reload-object object)
     (with-slots (newgl:cursor-pos newgl:mod-keys newgl:action newgl:button newgl:time) click
     (setf newgl:*previous-mouse-drag* (make-instance 'complex-fractal-click
