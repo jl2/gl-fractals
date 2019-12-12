@@ -28,12 +28,13 @@
                        (make-instance 'mandel-vertex-shader)
                        (make-instance 'mandel-fragment-shader)))))
 
-
 (defclass mandelbrot (complex-fractal)
   ((newgl:shader-program :initform (make-instance 'mandel-program)))
   (:documentation "A Mandelbrot set."))
 
-(defun make-mandelbrot (&key (window (make-instance 'complex-window)))
+(defun make-mandelbrot (&key
+                          (window (make-instance 'complex-window))
+                          (max-iterations 3200))
   (ctypecase window
     (complex-window (make-instance 'mandelbrot
                                    :vertices (to-vertices window)

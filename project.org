@@ -209,7 +209,11 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
 
 * Plan
-** TODO Move newgl:mandelbrot into this package
+** DONE Move newgl:mandelbrot into this package
+** TODO Implement Julia set
+** TODO Make max-iterations a uniform.
+** TODO Use :+ and :- keys to increase nad decrease max iterations by 0.5%
+** TODO Use OpenGL capability queries to decide default iterations and quality?
 
 * Examples
 
@@ -222,7 +226,50 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
   ;;                                                             :imag-max -0.42617327f0
   ;;                                                             :real-min -1.2854176f0
   ;;                                                             :real-max -1.2827007f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+(newgl:viewer (gl-fractals:make-julia-set
+  :center #C(-0.8659571664506543 0.21103343606710798)
+
+  :window (make-instance 'gl-fractals:complex-window
+    :center #C(0.004484415224550897 0.011359186297170476)
+    :radius #C(1.9156975761234338 1.9156975761234338))))
+
+(newgl:viewer (gl-fractals-make-julia-set
+  :center #C(-0.8267462103724946 0.21511750953995773)
+
+  :window (make-instance 'gl-fractals:complex-window
+    :center #C(1.298980564267291 -0.1658300314341572)
+    :radius #C(5.996933778084064e-5 5.996933778084064e-5))))
+
+(newgl:viewer (gl-fractals:make-julia-set
+ :center #C(-0.8345262366847149 0.21511750953995773)
+ :window (make-instance 'gl-fractals:complex-window
+     :center #C(0.9763995756327204 0.020094882728066907)
+     :radius #C(0.07237233778808641 0.07237233778808641))))
+
+(newgl:viewer (gl-fractals:make-julia-set
+ :center #C(-0.8471913957976317 0.21511750953995773)
+ :window (make-instance 'gl-fractals:complex-window
+     :center #C(0.9763995756327204 0.020094882728066907)
+     :radius #C(0.07237233778808641 0.07237233778808641))))
+
+(newgl:viewer (gl-fractals:make-julia-set
+    :center #C(0.21511750953995773 -0.8471913957976317)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.9763995756327204 0.020094882728066907)
+        :radius #C(0.07237233778808641 0.07237233778808641))))
+(newgl:viewer (gl-fractals:make-julia-set
+    :center #C(-0.11409593944295884 -0.8471913957976317)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.031992741178042516 -0.06268044356957965)
+        :radius #C(1.6555065259529314 1.6555065259529314))))
+
+(newgl:viewer (gl-fractals:make-julia-set
+    :center #C(0.28127175659200837 -0.5958568642482901)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.0016786111171619923 -0.07425483542716478)
+        :radius #C(4.7181068553795737e-4 4.7181068553795737e-4))))
+
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.53664005f0
                                                           -0.66616386f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -235,41 +282,41 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -0.5365136f0
                                                           -0.6662744f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -1.1581888f0 -0.30270645f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -1.1581888f0 -0.30270645f0
                                                           -1.0f0 -1.0f0 0.0f0 -1.1581888f0 -0.3111232f0
                                                            1.0f0 1.0f0 0.0f0 -1.1485512f0 -0.30270645f0
                                                            1.0f0 -1.0f0 0.0f0 -1.1485512f0 -0.3111232f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -1.1742291f0 -0.23033905f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -1.1742291f0 -0.23033905f0
                                                           -1.0f0 -1.0f0 0.0f0 -1.1742291f0 -0.2305259f0
                                                            1.0f0 1.0f0 0.0f0 -1.1740147f0 -0.23033905f0
                                                            1.0f0 -1.0f0 0.0f0 -1.1740147f0 -0.2305259f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.5717396f0 0.56185037f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.5717396f0 0.56185037f0
                                                           -1.0f0 -1.0f0 0.0f0 -0.5717396f0 0.5618009f0
                                                            1.0f0 1.0f0 0.0f0 -0.5716815f0 0.56185037f0
                                                            1.0f0 -1.0f0 0.0f0 -0.5716815f0 0.5618009f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.57171535f0 0.5618296f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.57171535f0 0.5618296f0
                                                           -1.0f0 -1.0f0 0.0f0 -0.57171535f0 0.56182176f0
                                                            1.0f0 1.0f0 0.0f0 -0.57170606f0 0.5618296f0
                                                            1.0f0 -1.0f0 0.0f0 -0.57170606f0 0.56182176f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.019941114f0 -0.80132824f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.019941114f0 -0.80132824f0
                                                           -1.0f0 -1.0f0 0.0f0 -0.019941114f0 -0.8014834f0
                                                            1.0f0 1.0f0 0.0f0 -0.019766055f0 -0.80132824f0
                                                            1.0f0 -1.0f0 0.0f0 -0.019766055f0 -0.8014834f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.7463853f0 0.11142462f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.7463853f0 0.11142462f0
                                                           -1.0f0 -1.0f0 0.0f0 -0.7463853f0 0.111105055f0
                                                            1.0f0 1.0f0 0.0f0 -0.74601483f0 0.11142462f0
                                                            1.0f0 -1.0f0 0.0f0 -0.74601483f0 0.111105055f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.5890263f0 -0.658861f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0 -0.5890263f0 -0.658861f0
                                                           -1.0f0 -1.0f0 0.0f0 -0.5890263f0 -0.6588699f0
                                                            1.0f0 1.0f0 0.0f0 -0.5890159f0 -0.658861f0
                                                            1.0f0 -1.0f0 0.0f0 -0.5890159f0 -0.6588699f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.74516207f0
                                                           0.11257817f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -281,7 +328,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -0.7451545f0
                                                           0.11257163f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.7574141f0
                                                           0.065616846f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -293,7 +340,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -0.7574074f0
                                                           0.065610915f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.7915367f0
                                                           0.14473091f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -305,7 +352,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -0.7915295f0
                                                           0.14472453f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -1.2241297f0
                                                           0.17696597f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -317,7 +364,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -1.2240658f0
                                                           0.17690969f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.7560801f0
                                                           0.067180365f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -328,7 +375,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -0.756049f0
                                                           0.067152254f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.7561429f0
                                                           0.06667288f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -340,7 +387,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -0.7561331f0
                                                           0.06666395f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -1.2487084f0
                                                           -0.15175077f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -352,7 +399,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -1.2483872f0
                                                           -0.15202482f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           0.3738236f0
                                                           -0.13247809f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -363,7 +410,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0 0.373886f0
                                                           -0.13253279f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           0.33340436f0
                                                           -0.26062173f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -376,7 +423,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           0.59035236f0
                                                           -0.48583227f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.74549246f0
                                                           0.112865195f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -388,7 +435,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -0.7448241f0
                                                           0.1122846f0)))
 
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           -0.58078134f0
                                                           0.55627096f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -400,7 +447,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           -0.5806191f0
                                                           0.55613124f0)))
-  (newgl:viewer :objects (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
+  (newgl:viewer (gl-fractals:make-mandelbrot :window #(-1.0f0 1.0f0 0.0f0
                                                           0.42627007f0
                                                           0.20046988f0 -1.0f0
                                                           -1.0f0 0.0f0
@@ -415,4 +462,4 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 #+END_SRC
 
 #+RESULTS:
-: #<SIMPLE-TASKS:CALL-TASK :FUNC #<CLOSURE (LAMBDA () :IN NEWGL:VIEWER) {101A6D485B}> :STATUS :SCHEDULED {101A6D48C3}>
+: #<SIMPLE-TASKS:CALL-TASK :FUNC #<CLOSURE (LAMBDA () :IN NEWGL:VIEWER) {10139C210B}> :STATUS :SCHEDULED {10139C2173}>

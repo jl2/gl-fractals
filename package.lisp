@@ -20,6 +20,11 @@
   (:export #:show-mandelbrot
            #:mandelbrot
            #:make-mandelbrot
+
+           #:julia-set
+           #:make-julia-set
+           #:show-julia-set
+
            #:complex-window
 
            #:complex-window

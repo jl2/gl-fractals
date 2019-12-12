@@ -5,8 +5,8 @@
 (in-package #:gl-fractals)
 
 (defclass complex-window ()
-  ((center :initarg :center :initform #C(-1.0 0.0))
-   (radius :initarg :radius :initform #C(3.0 3.0)))
+  ((center :initarg :center :initform #C(0.0 0.0))
+   (radius :initarg :radius :initform #C(4.0 4.0)))
   (:documentation "A rectangular region in the complex plain."))
 
 (defun window-from-center-radius (center radius)

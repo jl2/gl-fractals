@@ -1,6 +1,9 @@
 #version 400 core
 
 uniform int maxIterations;
+uniform float cReal;
+uniform float cImag;
+
 in vec2 complexCoordinate;
 
 out vec4 Color;
@@ -8,7 +11,7 @@ out vec4 Color;
 void main (void)
 {
      int iter;
-//      int maxIterations = maxIters;
+     // int maxIterations = 3200;
      float tempreal, tempimag, Creal, Cimag;
      float r2 = 0.0;
      vec2 pos = complexCoordinate;
@@ -23,9 +26,8 @@ void main (void)
           tempimag = imag;
           real = (tempreal * tempreal) - (tempimag * tempimag);
           imag = 2 * tempreal * tempimag;
-          real += Creal;
-          imag += Cimag;
-          r2 = r2 * r2;
+          real += cReal;
+          imag += cImag;
           r2 = (real * real) + (imag * imag);
           if (r2 >= 4)
                break;
@@ -40,7 +42,7 @@ void main (void)
           // float tmpval = fract(iter / 8422.0);
           // float tmpval2 = fract(iter / 11133.0);
           // float red = tmpval2;
-          // float green = sin(3.1415 * (1.0 - tmpval));
+          // float green = sin(3 * (1.0 - tmpval));
           // float blue = tmpval;
 
           // float red = clamp(imag * real * (iter % 67)/66.0, 0.0, 1.0);
