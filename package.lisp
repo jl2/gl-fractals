@@ -25,6 +25,14 @@
            #:make-julia-set
            #:show-julia-set
 
+           #:bs-js
+           #:make-bs-js
+           #:show-bs-js
+
+           #:burning-ship
+           #:make-burning-ship
+           #:show-burning-ship
+
            #:complex-window
 
            #:complex-window

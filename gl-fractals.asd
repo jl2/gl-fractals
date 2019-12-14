@@ -34,5 +34,7 @@
                (:file "complex-fractal")
                (:file "mandelbrot")
                (:file "julia-set")
+               (:file "bs-js")
+               (:file "burning-ship")
                )
   :in-order-to ((test-op (test-op gl-fractals.test))))

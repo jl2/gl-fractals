@@ -233,6 +233,85 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
     :center #C(0.004484415224550897 0.011359186297170476)
     :radius #C(1.9156975761234338 1.9156975761234338))))
 
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.04526969020711905 0.35503453193467954)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.3452406124393471 0.3468013198066143)
+        :radius #C(0.1720997426340873 0.1720997426340873))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.05182755461470171 0.36891864699210974)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.33353314695403513 0.29292769072079944)
+        :radius #C(3.1500644041436427e-5 3.1500644041436427e-5))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.44981547228776647 0.4099885133622729)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.0 0.0)
+        :radius #C(1.2941341798948356 1.2941341798948356))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.5119144826494835 0.3499739752016673)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.957916149651318 0.0863699736864958)
+        :radius #C(6.281946876260332e-6 6.281946876260332e-6))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.04526969020711905 0.35503453193467954)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.6833863629121971 0.03802957975014397)
+        :radius #C(1.1988726235919938e-5 1.1988726235919938e-5))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.031833915010505094 0.35503453193467954)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.29348157995876095 -0.42117766344959773)
+        :radius #C(1.803605193517385e-5 1.803605193517385e-5))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.5854049877734192 0.5520495877901315)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.6661042612925288 0.0642577239668508)
+        :radius #C(5.829678129825304e-6 5.829678129825304e-6))))
+
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.6826690614625661 0.1648037909064909)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(4.6028461355391735e-4 0.0830902920358278)
+        :radius #C(1.0163090611770657e-4 1.0163090611770657e-4))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.13604309129828893 0.4066319932815535)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.0 0.0)
+        :radius #C(4.0 4.0))))
+
+(newgl:viewer (gl-fractals:make-burning-ship
+    :center #C(-0.7682546058236294 0.3247886940487651)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.5732964395504254 0.8439020368179584)
+        :radius #C(0.0013127230884969465 0.0013127230884969465))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.12922204820132796 0.4105478129871146)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.0 0.0)
+        :radius #C(0.8693316598855858 0.8693316598855858))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(0.01747766940436468 0.41924112958597026)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.16159729173935686 -0.23206722270377061)
+        :radius #C(0.0012240720268100651 0.0012240720268100651))))
+
+(newgl:viewer (gl-fractals:make-bs-js
+    :center #C(-0.05182755461470171 0.3747552065453584)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.026886395572289168 0.10006020078783694)
+        :radius #C(1.5799331708143032 1.5799331708143032))))
+
 (newgl:viewer (gl-fractals:make-julia-set
   :center #C(-0.8267462103724946 0.21511750953995773)
 
@@ -479,4 +558,4 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 #+END_SRC
 
 #+RESULTS:
-: #<SIMPLE-TASKS:CALL-TASK :FUNC #<CLOSURE (LAMBDA () :IN NEWGL:VIEWER) {1004B5B8EB}> :STATUS :SCHEDULED {1004B5B953}>
+: #<SIMPLE-TASKS:CALL-TASK :FUNC #<CLOSURE (LAMBDA () :IN NEWGL:VIEWER) {101DBA0B1B}> :STATUS :SCHEDULED {101DBA0B83}>

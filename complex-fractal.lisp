@@ -11,12 +11,14 @@
                        :element-type 'fixnum
                        :initial-contents '(0 1 2 1 3 2)))
    (max-iterations :initform 3200 :type fixnum)
+   (aspect-ratio :initform 1.0 :initarg :aspect-ratio :type float)
    (zoom-window :initarg :zoom-window))
   (:documentation "Base class for fractals iterated on the complex plane."))
 
 (defmethod newgl:set-uniforms ((object complex-fractal))
-  (with-slots (newgl:shader-program max-iterations) object
-    (gl:uniformi (gl:get-uniform-location (slot-value newgl:shader-program 'newgl:program) "maxIterations") max-iterations))
+  (with-slots (newgl:shader-program max-iterations aspect-ratio) object
+    (gl:uniformi (gl:get-uniform-location (slot-value newgl:shader-program 'newgl:program) "maxIterations") max-iterations)
+    (gl:uniformf (gl:get-uniform-location (slot-value newgl:shader-program 'newgl:program) "aspectRatio") aspect-ratio))
     (call-next-method))
 
 (defun zoom-complex-fractal-window (scale cpos fractal)
@@ -101,6 +103,14 @@
   (call-next-method)
   (with-slots (newgl:shader-program) object
     (newgl:build-shader-program newgl:shader-program)))
+
+(defmethod newgl:handle-resize ((object complex-fractal) window width height)
+  (with-slots (aspect-ratio) object
+    (setf aspect-ratio (if (< height width )
+                           (/ width height 1.0)
+                           (/ height width -1.0)))
+    (format t "New aspect ratio: ~a~%" aspect-ratio)
+    ))
 
 (defmethod newgl:handle-drag ((object complex-fractal) window (click complex-fractal-click) cursor-pos)
   (declare (ignorable window))
