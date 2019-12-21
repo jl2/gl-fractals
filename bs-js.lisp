@@ -31,7 +31,8 @@
 
 (defclass bs-js (complex-fractal)
   ((newgl:shader-program :initform (make-instance 'bs-js-program))
-   (center :initarg :center :initform #C(-1.0 0.0) :type complex))
+   (center :initarg :center :initform #C(-1.0 0.0) :type complex)
+   (animate :initarg :animate :initform nil))
   (:documentation "A Bs-Jsbrot set."))
 
 (defmethod newgl:set-uniforms ((object bs-js))
@@ -43,7 +44,7 @@
 
 (defmethod newgl:handle-key ((object bs-js) window key scancode action mod-keys)
   (declare (ignorable window key scancode action mod-keys))
-  (with-slots ( center zoom-window ) object
+  (with-slots ( animate center zoom-window ) object
     (with-slots (radius) zoom-window
       (let ((real-offset (* 0.00125 (realpart radius)))
             (imag-offset (* 0.00125 (imagpart radius))))
@@ -57,6 +58,9 @@
           ((and (eq key :left) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
            (setf center (complex (- (realpart center) real-offset) (imagpart center))))
 
+          ((and (eq key :a) (eq action :press))
+           (setf animate (not animate)))
+
           ((and (eq key :right) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
            (setf center (complex (+ (realpart center) real-offset) (imagpart center))))
           ((and (eq key :j) (eq action :press))
@@ -68,6 +72,17 @@
                      radius)))
           (t
            (call-next-method)))))))
+
+(defmethod newgl:update ((object bs-js))
+  (with-slots (center zoom-window animate) object
+    (when animate
+      (with-slots (radius) zoom-window
+        (let ((real-offset (ju:random-between (* -0.0048 (realpart radius))
+                                              (* 0.0048 (realpart radius))))
+              (imag-offset (ju:random-between (* -0.0048 (imagpart radius))
+                                              (* 0.0048 (imagpart radius)))))
+          (setf center (complex (+ (realpart center) real-offset)
+                                (+ (imagpart center) imag-offset))))))))
 
 (defun make-bs-js (&key (center #C(-0.7682546058236294 0.3247886940487651)) (window (make-instance 'complex-window)))
   (ctypecase window

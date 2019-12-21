@@ -31,8 +31,21 @@
 
 (defclass julia-set (complex-fractal)
   ((newgl:shader-program :initform (make-instance 'julia-set-program))
-   (center :initarg :center :initform #C(-1.0 0.0) :type complex))
+   (center :initarg :center :initform #C(-1.0 0.0) :type complex)
+   (animate :initarg :animate :initform nil))
   (:documentation "A Julia-Setbrot set."))
+
+(defmethod newgl:update ((object julia-set))
+  (with-slots (center zoom-window animate) object
+    (when animate
+      (with-slots (radius) zoom-window
+        (let ((real-offset (ju:random-between (* -0.0048 (realpart radius))
+                                              (* 0.0048 (realpart radius))))
+              (imag-offset (ju:random-between (* -0.0048 (imagpart radius))
+                                              (* 0.0048 (imagpart radius)))))
+          (setf center (complex (+ (realpart center) real-offset)
+                                (+ (imagpart center) imag-offset))))))))
+
 
 (defmethod newgl:set-uniforms ((object julia-set))
   ;; (format t "set-uniforms julia-set~%")
@@ -43,7 +56,7 @@
 
 (defmethod newgl:handle-key ((object julia-set) window key scancode action mod-keys)
   (declare (ignorable window key scancode action mod-keys))
-  (with-slots ( center zoom-window ) object
+  (with-slots ( center zoom-window animate ) object
     (with-slots (radius) zoom-window
       (let ((real-offset (* 0.00125 (realpart radius)))
             (imag-offset (* 0.00125 (imagpart radius))))
@@ -59,6 +72,10 @@
 
           ((and (eq key :right) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
            (setf center (complex (+ (realpart center) real-offset) (imagpart center))))
+
+          ((and (eq key :a) (eq action :press))
+           (setf animate (not animate)))
+
           ((and (eq key :j) (eq action :press))
            (with-slots (newgl:vertices) object
              (format t
@@ -90,4 +107,4 @@
                                               :radius #C(0.2949329984606149 0.2949329984606149))))
                          (in-thread nil)
                          (show-traces nil))
-  (newgl:viewer :objects julia-set :in-thread in-thread :show-traces show-traces))
+  (newgl:viewer julia-set :in-thread in-thread :show-traces show-traces))

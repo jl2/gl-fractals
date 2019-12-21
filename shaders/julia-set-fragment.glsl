@@ -52,19 +52,19 @@ void main (void)
           float tmpval, tmpval2, red, green, blue, pi, fi;
           pi = 3.141592654;
 
-          // tmpval = fract(iter / 8422.0);
-          // tmpval2 = fract(iter / 11133.0);
-          // red = tmpval2;
-          // green = sin(3 * (1.0 - tmpval));
-          // blue = tmpval;
+          tmpval = fract(iter / 8422.0);
+          tmpval2 = fract(iter / 11133.0);
+          red = tmpval2;
+          green = sin(3 * (1.0 - tmpval));
+          blue = tmpval;
 
           // red = clamp(zy * zx * (iter % 67)/66.0, 0.0, 1.0);
           // green = clamp(zy * (iter % 47)/46.0, 0.0, 1.0);
           // blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
 
-          // red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
-          // green = clamp(zy * zy * (iter % 47)/46.0, 0.0, 1.0);
-          // blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
+          red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
+          green = clamp(zy * zy * (iter % 47)/46.0, 0.0, 1.0);
+          blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
 
           // red = clamp(zy * sin(3.1415*zx) * (iter % 67)/66.0, 0.0, 1.0);
           // green = clamp(zx * cos(3.1415*zy) * (iter % 47)/46.0, 0.0, 1.0);
@@ -74,8 +74,8 @@ void main (void)
           // green = clamp(abs(sin(6*zx) * cos(0.5*zy)) * (1.0 - (iter % 1000)/999.0), 0.0, 1.0);
           // blue = clamp(abs(cos(4*zx + zy)) * (1.0 - (iter % 240)/239.0), 0.0, 1.0);
 
-          red = fract(cos(0.25*zy) * sin(0.2*zx) * (iter/299.0));
-          green = fract(sin((iter/999.0)* zy * zx) + (iter/999.0));
+          // red = fract(cos(0.25*zy) * sin(0.2*zx) * (iter/299.0));
+          // green = fract(sin((iter/999.0)* zy * zx) + (iter/999.0));
           blue = fract(cos(zx * iter));
 
           // pi = 3.141592654;

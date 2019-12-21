@@ -28,6 +28,8 @@ void main (void)
 
      Creal = zx;
      Cimag = zy;
+     float ox = zx;
+     float oy = zy;
      for (iter = 0; iter < maxIterations; iter++)
      {
 // z = z^2 + c
@@ -74,9 +76,9 @@ void main (void)
           // green = clamp(abs(sin(6*zx) * cos(0.5*zy)) * (1.0 - (iter % 1000)/999.0), 0.0, 1.0);
           // blue = clamp(abs(cos(4*zx + zy)) * (1.0 - (iter % 240)/239.0), 0.0, 1.0);
 
-          red = fract(cos(0.25*zy) * sin(0.2*zx) * (iter/299.0));
-          green = fract(sin((iter/999.0)* zy * zx) + (iter/999.0));
-          blue = fract(cos(zx * iter));
+          // red = fract(cos(0.25*zy) * sin(0.2*zx) * (iter/299.0));
+          // green = fract(sin((iter/999.0)* zy * zx) + (iter/999.0));
+          // blue = fract(cos(zx * iter));
 
           // pi = 3.141592654;
           // fi = sin(0.5*(iter/24.0));
@@ -105,7 +107,13 @@ void main (void)
           // red = clamp(zx * fi, 0.0, 1.0);
           // green = clamp(abs(sin(zy * fi)), 0.0, 1.0) ;
           // blue = clamp(abs(sin(zx * zy * fi)), 0.0, 1.0);
+          float dx = ox - zx;
+          float dy = oy - zy;
+          float dist = sqrt(dx * dx + dy * dy);
 
+          red = abs(sin(dist*maxIterations));
+          green = abs(cos(dist * maxIterations));
+          blue = abs(cos(dist * maxIterations));
           color = vec4(red, green, blue, 1.0);
      }
      Color = color;

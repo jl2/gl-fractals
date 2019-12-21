@@ -325,11 +325,24 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
      :center #C(0.9763995756327204 0.020094882728066907)
      :radius #C(0.07237233778808641 0.07237233778808641))))
 
+
 (newgl:viewer (gl-fractals:make-julia-set
  :center #C(-0.8471913957976317 0.21511750953995773)
  :window (make-instance 'gl-fractals:complex-window
      :center #C(0.9763995756327204 0.020094882728066907)
      :radius #C(0.07237233778808641 0.07237233778808641))))
+
+(newgl:viewer (gl-fractals:make-julia-set
+    :center #C(0.2599896237743203 -0.5487185885380087)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.0 0.026006539492748795)
+        :radius #C(1.2262003103983226 1.2262003103983226))))
+
+(newgl:viewer (gl-fractals:make-julia-set
+    :center #C(-0.7646582501166748 -0.08996879977304784)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(0.0 0.0)
+        :radius #C(0.6992984588951879 0.6992984588951879))))
 
 (newgl:viewer (gl-fractals:make-julia-set
     :center #C(0.21511750953995773 -0.8471913957976317)
@@ -555,7 +568,13 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
                                                           -1.0f0 0.0f0
                                                           0.42629728f0
                                                           0.20044677f0)))
+
+(newgl:viewer (gl-fractals:make-julia-set
+    :center #C(-1.004093651034701 0.2797212116929054)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.1414722014117266 0.23666932040912744)
+        :radius #C(1.685647678161405 1.685647678161405))))
 #+END_SRC
 
 #+RESULTS:
-: #<SIMPLE-TASKS:CALL-TASK :FUNC #<CLOSURE (LAMBDA () :IN NEWGL:VIEWER) {101DBA0B1B}> :STATUS :SCHEDULED {101DBA0B83}>
+: #<SIMPLE-TASKS:CALL-TASK :FUNC #<CLOSURE (LAMBDA () :IN NEWGL:VIEWER) {10125EAABB}> :STATUS :SCHEDULED {10125EAB23}>

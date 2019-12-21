@@ -33,8 +33,8 @@ void main (void)
      {
 // z = z^2 + c
           
-          float xtemp = zx * zx - zy * zy;
-          zy = abs(2 * zx * zy);
+          float xtemp = zx * zx - zy * zy + ox;
+          zy = abs(2 * zx * zy + oy);
           zx = abs(xtemp);
           zx += cReal;
           zy += cImag;
