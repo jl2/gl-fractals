@@ -104,9 +104,7 @@
     (setf aspect-ratio (if (< height width )
                            (/ width height 1.0)
                            (/ height width -1.0)))
-    (format t "New aspect ratio: ~a~%" aspect-ratio)
-    (newgl:set-uniforms object)
-    ))
+    (newgl:set-uniforms object)))
 
 (defmethod newgl:handle-drag ((object complex-fractal) window (click complex-fractal-click) cursor-pos)
   (declare (ignorable window))
