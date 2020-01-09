@@ -4,36 +4,20 @@
 
 (in-package #:gl-fractals)
 
-(defclass julia-set-vertex-shader (newgl:gl-shader)
-  ((newgl:layout :initform
-           '(((:name . "position")
-              (:count . 3)
-              (:type . :float))
-
-             ((:name . "uv")
-              (:count . 2)
-              (:type . :float)))
-           :type (or null list))
-
-   (newgl:shader :initform 0 :type fixnum)
-   (newgl:source-file :initform (merge-pathnames *shader-dir* "julia-set-vertex.glsl") :type (or pathname string))
-   (newgl:shader-type :initform :vertex-shader)))
-
-(defclass julia-set-fragment-shader (newgl:gl-shader)
-  ((newgl:shader-type :initform :fragment-shader)
-   (newgl:source-file :initform (merge-pathnames *shader-dir* "julia-set-fragment.glsl"))))
-
-(defclass julia-set-program (newgl:shader-program)
-  ((newgl:shaders :initform (list
-                       (make-instance 'julia-set-vertex-shader)
-                       (make-instance 'julia-set-fragment-shader)))))
-
-
 (defclass julia-set (complex-fractal)
-  ((newgl:shader-program :initform (make-instance 'julia-set-program))
+  ((newgl:shader-program :initform (newgl:make-shader-program
+                                    (newgl:shader-from-file (merge-pathnames *shader-dir* "complex-vertex.glsl"))
+                                    (newgl:shader-from-file (merge-pathnames *shader-dir* "julia-set-fragment.glsl"))))
    (center :initarg :center :initform #C(-1.0 0.0) :type complex)
    (animate :initarg :animate :initform nil))
-  (:documentation "A Julia-Setbrot set."))
+  (:documentation "A Mandelbrot set."))
+
+(defmethod newgl:set-uniforms ((object julia-set))
+  ;; (format t "set-uniforms julia-set~%")
+  (with-slots (newgl:shader-program center) object
+    (newgl:set-uniform newgl:shader-program "cReal" (realpart center))
+    (newgl:set-uniform newgl:shader-program "cImag" (imagpart center))
+    (call-next-method)))
 
 (defmethod newgl:update ((object julia-set))
   (with-slots (center zoom-window animate) object
@@ -44,15 +28,11 @@
               (imag-offset (ju:random-between (* -0.0048 (imagpart radius))
                                               (* 0.0048 (imagpart radius)))))
           (setf center (complex (+ (realpart center) real-offset)
-                                (+ (imagpart center) imag-offset))))))))
+                                (+ (imagpart center) imag-offset)))))
+      (newgl:set-uniforms object))))
 
 
-(defmethod newgl:set-uniforms ((object julia-set))
-  ;; (format t "set-uniforms julia-set~%")
-  (with-slots (newgl:shader-program center) object
-    (gl:uniformf (gl:get-uniform-location (slot-value newgl:shader-program 'newgl:program) "cReal") (realpart center))
-    (gl:uniformf (gl:get-uniform-location (slot-value newgl:shader-program 'newgl:program) "cImag") (imagpart center)))
-    (call-next-method))
+
 
 (defmethod newgl:handle-key ((object julia-set) window key scancode action mod-keys)
   (declare (ignorable window key scancode action mod-keys))
@@ -62,16 +42,20 @@
             (imag-offset (* 0.00125 (imagpart radius))))
         (cond
           ((and (eq key :down) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
-           (setf center (complex (realpart center) (- (imagpart center) imag-offset))))
+           (setf center (complex (realpart center) (- (imagpart center) imag-offset)))
+           (newgl:set-uniforms object))
 
           ((and (eq key :up) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
-           (setf center (complex (realpart center) (+ (imagpart center) imag-offset))))
+           (setf center (complex (realpart center) (+ (imagpart center) imag-offset)))
+           (newgl:set-uniforms object))
 
           ((and (eq key :left) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
-           (setf center (complex (- (realpart center) real-offset) (imagpart center))))
+           (setf center (complex (- (realpart center) real-offset) (imagpart center)))
+           (newgl:set-uniforms object))
 
           ((and (eq key :right) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
-           (setf center (complex (+ (realpart center) real-offset) (imagpart center))))
+           (setf center (complex (+ (realpart center) real-offset) (imagpart center)))
+           (newgl:set-uniforms object))
 
           ((and (eq key :a) (eq action :press))
            (setf animate (not animate)))

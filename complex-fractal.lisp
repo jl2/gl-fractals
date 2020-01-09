@@ -5,21 +5,21 @@
 (in-package #:gl-fractals)
 
 (defclass complex-fractal (newgl:vertex-object)
-  ((newgl:vertices :initarg :vertices)
+  ((newgl:vertices :initform nil)
    (newgl:indices :initform (make-array
                        6
                        :element-type 'fixnum
                        :initial-contents '(0 1 2 1 3 2)))
-   (max-iterations :initform 3200 :type fixnum)
+   (max-iterations :initform 320 :initarg :max-iterations :type fixnum)
    (aspect-ratio :initform 1.0 :initarg :aspect-ratio :type float)
    (zoom-window :initarg :zoom-window))
   (:documentation "Base class for fractals iterated on the complex plane."))
 
 (defmethod newgl:set-uniforms ((object complex-fractal))
   (with-slots (newgl:shader-program max-iterations aspect-ratio) object
-    (gl:uniformi (gl:get-uniform-location (slot-value newgl:shader-program 'newgl:program) "maxIterations") max-iterations)
-    (gl:uniformf (gl:get-uniform-location (slot-value newgl:shader-program 'newgl:program) "aspectRatio") aspect-ratio))
-    (call-next-method))
+    (newgl:set-uniform newgl:shader-program "maxIterations" max-iterations)
+    (newgl:set-uniform newgl:shader-program "aspectRatio" aspect-ratio))
+  (call-next-method))
 
 (defun zoom-complex-fractal-window (scale cpos fractal)
   (with-slots (newgl:vertices zoom-window) fractal
@@ -99,17 +99,13 @@
 (defclass complex-fractal-click (newgl:mouse-click)
   ((window :initarg :window)))
 
-(defmethod newgl:rebuild-shaders ((object complex-fractal))
-  (call-next-method)
-  (with-slots (newgl:shader-program) object
-    (newgl:build-shader-program newgl:shader-program)))
-
 (defmethod newgl:handle-resize ((object complex-fractal) window width height)
   (with-slots (aspect-ratio) object
     (setf aspect-ratio (if (< height width )
                            (/ width height 1.0)
                            (/ height width -1.0)))
     (format t "New aspect ratio: ~a~%" aspect-ratio)
+    (newgl:set-uniforms object)
     ))
 
 (defmethod newgl:handle-drag ((object complex-fractal) window (click complex-fractal-click) cursor-pos)

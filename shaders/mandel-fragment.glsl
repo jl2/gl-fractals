@@ -1,6 +1,7 @@
 #version 400 core
 
 uniform int maxIterations;
+
 uniform float aspectRatio;
 
 in vec2 complexCoordinate;
@@ -92,11 +93,10 @@ void main (void)
           // green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
           // blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
 
-          // pi = 3.141592654;
-          // fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
-          // red =   clamp(pow((1.0 - fi), (zx*zy)), 0.0, 1.0);
-          // green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
-          // blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
+          fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
+          red =   clamp(pow((1.0 - fi), (zx*zy)), 0.0, 1.0);
+          green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
+          blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
 
           // pi = 3.141592654;
           // fi = (0.85 + sin(pi * (iter/maxIterations))) / 2.0;
@@ -111,9 +111,9 @@ void main (void)
           float dy = oy - zy;
           float dist = sqrt(dx * dx + dy * dy);
 
-          red = abs(sin(dist*maxIterations));
-          green = abs(cos(dist * maxIterations));
-          blue = abs(cos(dist * maxIterations));
+          // red = abs(sin(dist*maxIterations));
+          // green = abs(cos(dist * maxIterations));
+          // blue = abs(cos(dist * maxIterations));
           color = vec4(red, green, blue, 1.0);
      }
      Color = color;

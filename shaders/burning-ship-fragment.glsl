@@ -1,8 +1,6 @@
 #version 400 core
 
 uniform int maxIterations;
-uniform float cReal;
-uniform float cImag;
 uniform float aspectRatio;
 
 in vec2 complexCoordinate;
