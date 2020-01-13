@@ -79,18 +79,16 @@ void main (void)
           blue = fract(cos(zx * iter));
 
           // pi = 3.141592654;
-          // fi = sin(0.5*(iter/24.0));
-          // red =   clamp(fi * abs(sin(pow(fi, pos.x))), 0.0, 1.0);
+          fi = sin(0.5*(iter/24.0));
+          red =   clamp(fi * abs(sin(pow(fi, pos.x))), 0.0, 1.0);
           // green = clamp(fi * abs(sin(pow(fi, zx))), 0.0, 1.0);
           // blue =  clamp(fi * abs(cos(pow(fi, fi)) * sin(pow(zx, fi))), 0.0, 1.0);
 
-          // pi = 3.141592654;
           // fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
           // red =   clamp(pow((1.0 - fi), (zx*zy)), 0.0, 1.0);
-          // green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
-          // blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
+          green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
+          blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
 
-          // pi = 3.141592654;
           // fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
           // red =   clamp(pow((1.0 - fi), (zx*zy)), 0.0, 1.0);
           // green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
