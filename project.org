@@ -215,6 +215,7 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 ** TODO Use :+ and :- keys to increase nad decrease max iterations by 0.5%
 ** TODO Use OpenGL capability queries to decide default iterations and quality?
 
+
 * Examples
 
 #+BEGIN_SRC lisp
@@ -574,6 +575,11 @@ Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
     :window (make-instance 'gl-fractals:complex-window
         :center #C(-0.1414722014117266 0.23666932040912744)
         :radius #C(1.685647678161405 1.685647678161405))))
+(newgl:viewer (gl-fractals:make-julia-set
+    :center #C(-0.544703883217395 0.5676817138153185)
+    :window (make-instance 'gl-fractals:complex-window
+        :center #C(-0.0386831066706983 0.014702597434139264)
+        :radius #C(0.8593252576381277 0.8593252576381277))))
 #+END_SRC
 
 #+RESULTS:

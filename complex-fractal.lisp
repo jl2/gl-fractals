@@ -17,8 +17,14 @@
 
 (defmethod newgl:set-uniforms ((object complex-fractal))
   (with-slots (newgl:shader-program max-iterations aspect-ratio) object
-    (newgl:set-uniform newgl:shader-program "maxIterations" max-iterations)
-    (newgl:set-uniform newgl:shader-program "aspectRatio" aspect-ratio))
+    (newgl:set-uniform newgl:shader-program
+                       "maxIterations"
+                       max-iterations)
+
+    (newgl:set-uniform newgl:shader-program
+                       "aspectRatio"
+                       aspect-ratio))
+
   (call-next-method))
 
 (defun zoom-complex-fractal-window (scale cpos fractal)
