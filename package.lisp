@@ -42,5 +42,8 @@
            #:imag-min
            #:real-max
            #:real-min
+
+           #:make-strange-attractor
+           #:make-line-strange-attractor
            ))
 
