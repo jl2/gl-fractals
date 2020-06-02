@@ -1,7 +1,6 @@
 #version 400 core
 
 uniform int maxIterations;
-
 uniform float aspectRatio;
 
 in vec2 complexCoordinate;
@@ -11,7 +10,6 @@ out vec4 Color;
 void main (void)
 {
      int iter;
-//      int maxIterations = maxIters;
      float tempzx, tempzy, Creal, Cimag;
      float r2 = 0.0;
      vec2 pos = complexCoordinate;
@@ -65,9 +63,9 @@ void main (void)
           // green = clamp(zy * (iter % 47)/46.0, 0.0, 1.0);
           // blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
 
-          // red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
-          // green = clamp(zy * zy * (iter % 47)/46.0, 0.0, 1.0);
-          // blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
+          red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
+          green = clamp(zy * zy * (iter % 47)/46.0, 0.0, 1.0);
+          blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
 
           // red = clamp(zy * sin(3.1415*zx) * (iter % 67)/66.0, 0.0, 1.0);
           // green = clamp(zx * cos(3.1415*zy) * (iter % 47)/46.0, 0.0, 1.0);
@@ -93,10 +91,10 @@ void main (void)
           // green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
           // blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
 
-          fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
-          red =   clamp(pow((1.0 - fi), (zx*zy)), 0.0, 1.0);
-          green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
-          blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
+          // fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
+          // red =   clamp(pow((1.0 - fi), (zx*zy)), 0.0, 1.0);
+          // green = clamp(pow(fi, abs(sin(fi+zy))), 0.0, 1.0);
+          // blue =  clamp(abs(tan(fi - sin(fi + zx))), 0.0, 1.0);
 
           // pi = 3.141592654;
           // fi = (0.85 + sin(pi * (iter/maxIterations))) / 2.0;

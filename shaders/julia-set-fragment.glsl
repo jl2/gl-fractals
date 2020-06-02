@@ -12,7 +12,6 @@ out vec4 Color;
 void main (void)
 {
      int iter;
-     // int maxIterations = 3200;
      float tempzx, tempzy, Creal, Cimag;
      float r2 = 0.0;
      vec2 pos = complexCoordinate;

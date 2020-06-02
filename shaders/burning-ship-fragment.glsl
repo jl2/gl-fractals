@@ -26,13 +26,10 @@ void main (void)
      }
      ox = zx;
      oy = zy;
-     
      for (iter = 0; iter < maxIterations; iter++)
      {
-// z = z^2 + c
-          
           float xtemp = zx * zx - zy * zy + ox;
-          zy = abs(2 * zx * zy - oy);
+          zy = abs(2 * zx * zx * zy - oy);
           zx = abs(xtemp);
           r2 = (zx * zx) + (zy * zy);
           if (r2 >= 4)
@@ -54,13 +51,13 @@ void main (void)
           green = sin(3 * (1.0 - tmpval));
           blue = tmpval;
 
-          // red = clamp(zy * zx * (iter % 67)/66.0, 0.0, 1.0);
+          red = clamp(zy * zx * (iter % 67)/66.0, 0.0, 1.0);
           // green = clamp(zy * (iter % 47)/46.0, 0.0, 1.0);
-          // blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
+          blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
 
-          // red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
+          red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
           // green = clamp(zy * zy * (iter % 47)/46.0, 0.0, 1.0);
-          // blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
+          blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
 
           // red = clamp(zy * sin(3.1415*zx) * (iter % 67)/66.0, 0.0, 1.0);
           // green = clamp(zx * cos(3.1415*zy) * (iter % 47)/46.0, 0.0, 1.0);

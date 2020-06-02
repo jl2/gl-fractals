@@ -22,5 +22,5 @@
                            :vertices window
                            :zoom-window (window-from-vertices window)))))
 
-(defun show-mandelbrot (&key (mandel (make-mandelbrot)) (in-thread nil) (show-traces nil))
-  (newgl:viewer mandel :in-thread in-thread :show-traces show-traces))
+(defun show-mandelbrot (&key (mandel (make-mandelbrot)))
+  (newgl:display mandel))

@@ -16,16 +16,14 @@
   (:documentation "Base class for fractals iterated on the complex plane."))
 
 (defmethod newgl:set-uniforms ((object complex-fractal))
+  (call-next-method)
   (with-slots (newgl:shader-program max-iterations aspect-ratio) object
     (newgl:set-uniform newgl:shader-program
                        "maxIterations"
                        max-iterations)
-
     (newgl:set-uniform newgl:shader-program
                        "aspectRatio"
-                       aspect-ratio))
-
-  (call-next-method))
+                       aspect-ratio)))
 
 (defun zoom-complex-fractal-window (scale cpos fractal)
   (with-slots (newgl:vertices zoom-window) fractal
@@ -60,7 +58,7 @@
 
                 ((and (eq key :w) (eq action :press))
                  (with-slots (newgl:vertices) object
-                   (format t "(newgl:viewer :objects (gl-fractals:make-complex-fractal :window ~a))~%" newgl:vertices))
+                   (format t "(newgl:display (gl-fractals:make-complex-fractal :window ~a))~%" newgl:vertices))
                  t)
 
                 ((and (eq key :page-down)  (or (eq action :press) (eq action :repeat)))

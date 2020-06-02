@@ -27,7 +27,7 @@
           ((and (eq key :j) (eq action :press))
            (with-slots (newgl:vertices) object
              (format t
-                     "(newgl:viewer (gl-fractals:make-burning-ship~%    :center ~a~%    :window (make-instance 'gl-fractals:complex-window~%        :center ~a~%        :radius ~a)))~%"
+                     "(newgl:display (gl-fractals:make-burning-ship~%    :center ~a~%    :window (make-instance 'gl-fractals:complex-window~%        :center ~a~%        :radius ~a)))~%"
                      center
                      (slot-value zoom-window 'center)
                      radius)))
@@ -51,7 +51,5 @@
                                      :window (make-instance
                                               'complex-window
                                               :center #C(-0.035025446142364025 0.07755634502952052)
-                                              :radius #C(0.2949329984606149 0.2949329984606149))))
-                     (in-thread nil)
-                     (show-traces nil))
-  (newgl:viewer burning-ship :in-thread in-thread :show-traces show-traces))
+                                              :radius #C(0.2949329984606149 0.2949329984606149)))))
+  (newgl:display burning-ship))

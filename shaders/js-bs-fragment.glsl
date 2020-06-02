@@ -19,8 +19,6 @@ void main (void)
      float zy = pos.y;
      for (iter = 0; iter < maxIterations; iter++)
      {
-// z = z^2 + c
-          
           xtemp = zx * zx - zy * zy + pos.x;
           zy = abs(2 * zx * zy + pos.y);
           zx = abs(xtemp);
@@ -58,9 +56,9 @@ void main (void)
           // float green = clamp(abs(sin(6*real) * cos(0.5*imag)) * (1.0 - (iter % 1000)/999.0), 0.0, 1.0);
           // float blue = clamp(abs(cos(4*real + imag)) * (1.0 - (iter % 240)/239.0), 0.0, 1.0);
 
-          float red = fract(cos(0.25*imag) * sin(0.2*real) * (iter/299.0));
-          float green = fract(sin((iter/999.0)* imag * real) + (iter/999.0));
-          float blue = fract(cos(real * iter));
+          // float red = fract(cos(0.25*imag) * sin(0.2*real) * (iter/299.0));
+          // float green = fract(sin((iter/999.0)* imag * real) + (iter/999.0));
+          // float blue = fract(cos(real * iter));
 
           // float pi = 3.141592654;
           // float fi = sin(0.5*(iter/24.0));
@@ -68,11 +66,11 @@ void main (void)
           // float green = clamp(fi * abs(sin(pow(fi, real))), 0.0, 1.0);
           // float blue =  clamp(fi * abs(cos(pow(fi, fi)) * sin(pow(real, fi))), 0.0, 1.0);
 
-          // float pi = 3.141592654;
-          // float fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
-          // float red =   clamp(pow((1.0 - fi), (real*imag)), 0.0, 1.0);
-          // float green = clamp(pow(fi, abs(sin(fi+imag))), 0.0, 1.0);
-          // float blue =  clamp(abs(tan(fi - sin(fi + real))), 0.0, 1.0);
+          float pi = 3.141592654;
+          float fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
+          float red =   clamp(pow((1.0 - fi), (real*imag)), 0.0, 1.0);
+          float green = clamp(pow(fi, abs(sin(fi+imag))), 0.0, 1.0);
+          float blue =  clamp(abs(tan(fi - sin(fi + real))), 0.0, 1.0);
 
           // float pi = 3.141592654;
           // float fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
@@ -82,9 +80,9 @@ void main (void)
 
           // float pi = 3.141592654;
           // float fi = (0.85 + sin(pi * (iter/maxIterations))) / 2.0;
-          // // float red =   clamp(abs(/(1.0+4*fi)), 0.0, 1.0);
-          // // float green = clamp(, 0.0, 1.0);
-          // // float blue =  clamp(, 0.0, 1.0);
+          // float red =   clamp(abs(/(1.0+4*fi)), 0.0, 1.0);
+          // float green = clamp(, 0.0, 1.0);
+          // float blue =  clamp(, 0.0, 1.0);
 
           // float red = clamp(real * fi, 0.0, 1.0);
           // float green = clamp(abs(sin(imag * fi)), 0.0, 1.0) ;
