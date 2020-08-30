@@ -112,7 +112,6 @@
 
 (defmethod newgl:handle-drag ((object complex-fractal) window (click complex-fractal-click) cursor-pos)
   (declare (ignorable window))
-
   (with-slots (newgl:vertices zoom-window) object
     (with-slots (center radius) zoom-window
       (incf center (- (cursor-position-to-complex (slot-value newgl:*previous-mouse-drag* 'newgl:cursor-pos)
@@ -121,14 +120,14 @@
     (setf newgl:vertices (to-vertices zoom-window))
     (newgl:reload-object object)
     (with-slots (newgl:cursor-pos newgl:mod-keys newgl:action newgl:button newgl:time) click
-    (setf newgl:*previous-mouse-drag* (make-instance 'complex-fractal-click
-                                                     :window zoom-window
-                                                     :cursor-pos cursor-pos
-                                                     :mod-keys newgl:mod-keys
-                                                     :action newgl:action
-                                                     :button newgl:button
-                                                     :time newgl:time)))))
-
+      (setf newgl:*previous-mouse-drag* (make-instance 'complex-fractal-click
+                                                       :window zoom-window
+                                                       :cursor-pos cursor-pos
+                                                       :mod-keys newgl:mod-keys
+                                                       :action newgl:action
+                                                       :button newgl:button
+                                                       :time newgl:time))))
+  t)
 
 (defmethod newgl:handle-click ((object complex-fractal) window click)
   (declare (ignorable window))
