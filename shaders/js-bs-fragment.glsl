@@ -34,11 +34,11 @@ void main (void)
      }
      else
      {
-          // float tmpval = fract(iter / 8422.0);
-          // float tmpval2 = fract(iter / 11133.0);
-          // float red = tmpval2;
-          // float green = sin(3 * (1.0 - tmpval));
-          // float blue = tmpval;
+          float tmpval = fract(iter / 8422.0);
+          float tmpval2 = fract(iter / 11133.0);
+          float red = tmpval2;
+          float green = sin(3 * (1.0 - tmpval));
+          float blue = tmpval;
 
           // float red = clamp(imag * real * (iter % 67)/66.0, 0.0, 1.0);
           // float green = clamp(imag * (iter % 47)/46.0, 0.0, 1.0);
@@ -66,11 +66,11 @@ void main (void)
           // float green = clamp(fi * abs(sin(pow(fi, real))), 0.0, 1.0);
           // float blue =  clamp(fi * abs(cos(pow(fi, fi)) * sin(pow(real, fi))), 0.0, 1.0);
 
-          float pi = 3.141592654;
-          float fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
-          float red =   clamp(pow((1.0 - fi), (real*imag)), 0.0, 1.0);
-          float green = clamp(pow(fi, abs(sin(fi+imag))), 0.0, 1.0);
-          float blue =  clamp(abs(tan(fi - sin(fi + real))), 0.0, 1.0);
+          // float pi = 3.141592654;
+          // float fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;
+          // float red =   clamp(pow((1.0 - fi), (real*imag)), 0.0, 1.0);
+          // float green = clamp(pow(fi, abs(sin(fi+imag))), 0.0, 1.0);
+          // float blue =  clamp(abs(tan(fi - sin(fi + real))), 0.0, 1.0);
 
           // float pi = 3.141592654;
           // float fi = (0.5 + sin(pi * (iter/2400.0))) / 2.0;

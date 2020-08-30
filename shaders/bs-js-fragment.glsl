@@ -57,13 +57,13 @@ void main (void)
            // green = sin(3 * (1.0 - tmpval));
            // blue = tmpval;
 
-           red = clamp((iter % 67)/65.0, 0.0, 1.0);
-           green = clamp((iter % 47)/46.0, 0.0, 1.0);
-           blue = clamp((iter % 24)/23.0, 0.0, 1.0);
+           // red = clamp((iter % 67)/65.0, 0.0, 1.0);
+           // green = clamp((iter % 47)/46.0, 0.0, 1.0);
+           // blue = clamp((iter % 24)/23.0, 0.0, 1.0);
 
-           // red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
-           // green = clamp(zy * zy * (iter % 47)/46.0, 0.0, 1.0);
-           // blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
+           red = clamp(zy * zx * zx * (iter % 67)/66.0, 0.0, 1.0);
+           green = clamp(zy * zy * (iter % 47)/46.0, 0.0, 1.0);
+           blue = clamp(zx * zx * (iter % 24)/23.0, 0.0, 1.0);
 
            // red = clamp(zy * sin(3.1415*zx) * (iter % 67)/66.0, 0.0, 1.0);
            // green = clamp(zx * cos(3.1415*zy) * (iter % 47)/46.0, 0.0, 1.0);
