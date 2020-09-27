@@ -12,7 +12,7 @@ out vec4 Color;
 void main (void)
 {
      int iter;
-     float tempzx, tempzy, Creal, Cimag;
+     float tempzx, tempzy;
      float r2 = 0.0;
      vec2 pos = complexCoordinate;
      float zx;
@@ -26,8 +26,6 @@ void main (void)
           zy = -1 * pos.y * aspectRatio;
      }
 
-     Creal = zx;
-     Cimag = zy;
      for (iter = 0; iter < maxIterations; iter++)
      {
 // z = z^2 + c

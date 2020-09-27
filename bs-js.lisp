@@ -12,14 +12,14 @@
    (animate :initarg :animate :initform nil))
   (:documentation "A Bs-Jsbrot set."))
 
-(defmethod newgl:set-uniforms ((object bs-js))
-  ;; (format t "set-uniforms julia-set~%")
+(defmethod newgl:assign-uniforms ((object bs-js) &optional view-xform)
+  (declare (ignorable view-xform))
   (with-slots (newgl:shader-program center) object
     (newgl:set-uniform newgl:shader-program "cReal" (realpart center))
     (newgl:set-uniform newgl:shader-program "cImag" (imagpart center))
     (call-next-method)))
 
-(defmethod newgl:update ((object bs-js))
+(defmethod newgl:update ((object bs-js) elapsed-time)
   (with-slots (center zoom-window animate) object
     (when animate
       (with-slots (radius) zoom-window
@@ -29,7 +29,7 @@
                                               (* 0.0048 (imagpart radius)))))
           (setf center (complex (+ (realpart center) real-offset)
                                 (+ (imagpart center) imag-offset)))))
-      (newgl:set-uniforms object))))
+      (newgl:assign-uniforms object))))
 
 (defmethod newgl:handle-key ((object bs-js) window key scancode action mod-keys)
   (declare (ignorable window key scancode action mod-keys))
@@ -40,30 +40,29 @@
         (cond
           ((and (eq key :down) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
            (setf center (complex (realpart center) (- (imagpart center) imag-offset)))
-           (newgl:set-uniforms object))
+           (newgl:assign-uniforms object))
 
           ((and (eq key :up) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
            (setf center (complex (realpart center) (+ (imagpart center) imag-offset)))
-           (newgl:set-uniforms object))
+           (newgl:assign-uniforms object))
 
           ((and (eq key :left) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
            (setf center (complex (- (realpart center) real-offset) (imagpart center)))
-           (newgl:set-uniforms object))
+           (newgl:assign-uniforms object))
 
           ((and (eq key :a) (eq action :press))
            (setf animate (not animate)))
 
           ((and (eq key :right) (find :shift mod-keys) (or (eq action :press) (eq action :repeat)))
            (setf center (complex (+ (realpart center) real-offset) (imagpart center)))
-           (newgl:set-uniforms object))
+           (newgl:assign-uniforms object))
 
           ((and (eq key :j) (eq action :press))
-           (with-slots (newgl:vertices) object
-             (format t
-                     "(newgl:display (gl-fractals:make-bs-js~%    :center ~a~%    :window (make-instance 'gl-fractals:complex-window~%        :center ~a~%        :radius ~a)))~%"
-                     center
-                     (slot-value zoom-window 'center)
-                     radius)))
+           (format t
+                   "(newgl:display (gl-fractals:make-bs-js~%    :center ~a~%    :window (make-instance 'gl-fractals:complex-window~%        :center ~a~%        :radius ~a)))~%"
+                   center
+                   (slot-value zoom-window 'center)
+                   radius))
           (t
            (call-next-method)))))))
 
@@ -73,11 +72,9 @@
   (ctypecase window
     (complex-window (make-instance 'bs-js
                                    :center center
-                                   :vertices (to-vertices window)
                                    :zoom-window window))
     (vector (make-instance 'bs-js
                            :center center
-                           :vertices window
                            :zoom-window (window-from-vertices window)))))
 
 (defun show-bs-js (&key

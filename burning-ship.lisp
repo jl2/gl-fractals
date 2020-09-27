@@ -11,37 +11,31 @@
    (center :initarg :center :initform #C(-1.0 0.0) :type complex))
   (:documentation "A Burning-Shipbrot set."))
 
-(defmethod newgl:set-uniforms ((object burning-ship))
+(defmethod newgl:assign-uniforms ((object burning-ship) &optional view-xform)
+  (declare (ignorable view-xform))
   (with-slots (newgl:shader-program center) object
-    (newgl:set-uniform newgl:shader-program "cReal" (realpart center))
-    (newgl:set-uniform newgl:shader-program "cImag" (imagpart center))
     (call-next-method)))
 
 (defmethod newgl:handle-key ((object burning-ship) window key scancode action mod-keys)
   (declare (ignorable window key scancode action mod-keys))
   (with-slots ( center zoom-window ) object
     (with-slots (radius) zoom-window
-      (let ((real-offset (* 0.00125 (realpart radius)))
-            (imag-offset (* 0.00125 (imagpart radius))))
-        (cond
-          ((and (eq key :j) (eq action :press))
-           (with-slots (newgl:vertices) object
-             (format t
-                     "(newgl:display (gl-fractals:make-burning-ship~%    :center ~a~%    :window (make-instance 'gl-fractals:complex-window~%        :center ~a~%        :radius ~a)))~%"
-                     center
-                     (slot-value zoom-window 'center)
-                     radius)))
-          (t (call-next-method)))))))
+      (cond
+        ((and (eq key :j) (eq action :press))
+         (format t
+                 "(newgl:display (gl-fractals:make-burning-ship~%    :center ~a~%    :window (make-instance 'gl-fractals:complex-window~%        :center ~a~%        :radius ~a)))~%"
+                 center
+                 (slot-value zoom-window 'center)
+                 radius))
+        (t (call-next-method))))))
 
 (defun make-burning-ship (&key (center #C(-0.7682546058236294 0.3247886940487651)) (window (make-instance 'complex-window)))
   (ctypecase window
     (complex-window (make-instance 'burning-ship
                                    :center center
-                                   :vertices (to-vertices window)
                                    :zoom-window window))
     (vector (make-instance 'burning-ship
                            :center center
-                           :vertices window
                            :zoom-window (window-from-vertices window)))))
 
 (defun show-burning-ship (&key

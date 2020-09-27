@@ -15,12 +15,10 @@
                           (max-iterations 3200))
   (ctypecase window
     (complex-window (make-instance 'mandelbrot
-                                   :vertices (to-vertices window)
                                    :zoom-window window
                                    :max-iterations max-iterations))
     (vector (make-instance 'mandelbrot
-                           :vertices window
                            :zoom-window (window-from-vertices window)))))
 
 (defun show-mandelbrot (&key (mandel (make-mandelbrot)))
-  (newgl:display mandel))
+  (newgl:display mandel :debug t))
