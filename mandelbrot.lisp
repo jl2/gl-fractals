@@ -20,5 +20,5 @@
     (vector (make-instance 'mandelbrot
                            :zoom-window (window-from-vertices window)))))
 
-(defun show-mandelbrot (&key (mandel (make-mandelbrot)))
-  (newgl:display mandel :debug t))
+(defun show-mandelbrot (&key (mandel (make-mandelbrot)) (debug t))
+  (newgl:display mandel :debug debug))

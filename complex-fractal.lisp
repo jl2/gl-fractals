@@ -8,7 +8,10 @@
 (defclass complex-fractal (newgl:geometry)
   ((max-iterations :initform 320 :initarg :max-iterations :type fixnum)
    (aspect-ratio :initform 1.0 :type real)
-   (zoom-window :initarg :zoom-window))
+   (zoom-window :initarg :zoom-window)
+   (mouse-press-info :initform nil)
+   (mouse-release-info :initform nil)
+   (previous-mouse-drag :initform nil))
   (:documentation "Base class for fractals iterated on the complex plane."))
 
 (defmethod newgl:vertex-buffers ((object complex-fractal))
@@ -20,10 +23,11 @@
              :initial-contents '(0 1 2 1 3 2)))))
 
 (defmethod newgl:render ((object complex-fractal) view-xform)
-  (call-next-method)
+  (declare (ignorable view-xform))
   (with-slots (newgl:shader-program max-iterations aspect-ratio) object
     (newgl:set-uniform newgl:shader-program "maxIterations" max-iterations)
-    (newgl:set-uniform newgl:shader-program "aspectRatio" aspect-ratio)))
+    (newgl:set-uniform newgl:shader-program "aspectRatio" aspect-ratio))
+  (call-next-method))
 
 (defun zoom-complex-fractal-window (scale cpos fractal)
   (with-slots (zoom-window) fractal
@@ -95,52 +99,38 @@
 (defclass complex-fractal-click (newgl:mouse-click)
   ((window :initarg :window)))
 
+ (defmethod update-instance-for-different-class :before ((old newgl:mouse-click)
+                                                         (new complex-fractal-click)
+                                                         &key (zoom-window))
+            (setf (slot-value new 'window) zoom-window))
+
+(defmethod newgl:handle-click ((object complex-fractal) window click)
+  (declare (ignorable window))
+  (with-slots (zoom-window previous-mouse-drag) object
+    (with-slots (zoom-window previous-mouse-drag) object
+      (with-slots (newgl:action newgl:cursor-pos) click
+        (cond
+          ((eq newgl:action :press)
+           (setf previous-mouse-drag (change-class click 'complex-fractal-click :window zoom-window)))
+          ((eq newgl:action :release)
+           (setf previous-mouse-drag nil))
+          (previous-mouse-drag
+           (with-slots (center radius) zoom-window
+             (incf center (- (cursor-position-to-complex (slot-value previous-mouse-drag 'newgl:cursor-pos)
+                                                         zoom-window)
+                             (cursor-position-to-complex newgl:cursor-pos
+                                                         zoom-window))))
+           (newgl:reload-object object)
+           (setf previous-mouse-drag (change-class click 'complex-fractal-click :window zoom-window)))))
+      t)))
+
 (defmethod newgl:handle-resize ((object complex-fractal) window width height)
+  (declare (ignorable window))
   (with-slots (aspect-ratio) object
     (setf aspect-ratio (if (< height width )
                            (/ width height 1.0)
                            (/ height width -1.0)))
     (newgl:assign-uniforms object)))
-
-(defmethod newgl:handle-drag ((object complex-fractal) window (click complex-fractal-click) cursor-pos)
-  (declare (ignorable window))
-  (with-slots (zoom-window) object
-    (with-slots (center radius) zoom-window
-      (incf center (- (cursor-position-to-complex (slot-value newgl:*previous-mouse-drag* 'newgl:cursor-pos)
-                                                  zoom-window)
-                      (cursor-position-to-complex cursor-pos zoom-window))))
-    (newgl:reload-object object)
-    (with-slots (newgl:cursor-pos newgl:mod-keys newgl:action newgl:button newgl:time) click
-      (setf newgl:*previous-mouse-drag* (make-instance 'complex-fractal-click
-                                                       :window zoom-window
-                                                       :cursor-pos cursor-pos
-                                                       :mod-keys newgl:mod-keys
-                                                       :action newgl:action
-                                                       :button newgl:button
-                                                       :time newgl:time))))
-  t)
-
-(defmethod newgl:handle-click ((object complex-fractal) window click)
-  (declare (ignorable window))
-  (with-slots (zoom-window) object
-    (with-slots (newgl:cursor-pos newgl:mod-keys newgl:action newgl:button newgl:time) click
-      (let ((mp (make-instance 'complex-fractal-click
-                                              :window zoom-window
-                                              :cursor-pos newgl:cursor-pos
-                                              :mod-keys newgl:mod-keys
-                                              :action newgl:action
-                                              :button newgl:button
-                                              :time newgl:time)))
-        (cond ((eq newgl:action :press)
-               (setf newgl:*previous-mouse-drag* mp)
-               (setf newgl:*mouse-press-info* mp)
-               (setf newgl:*mouse-release-info* nil))
-
-              ((eq newgl:action :release)
-               (setf newgl:*previous-mouse-drag* nil)
-               (setf newgl:*mouse-press-info* nil)
-               (setf newgl:*mouse-release-info* mp)))
-        t))))
 
 (defmethod newgl:handle-scroll ((object complex-fractal) window cpos x-scroll y-scroll)
   (declare (ignorable window x-scroll y-scroll))
@@ -156,3 +146,18 @@
                               (coerce (/ cur-height 2.0) 'double-float)))
   (newgl:reload-object object)
   t)
+
+(defmethod newgl:update ((object complex-fractal) elapsed-time)
+  (declare (ignorable elapsed-time))
+  (with-slots (zoom-window previous-mouse-drag) object
+    (when previous-mouse-drag
+      (format t "Dragging: ~a~%" previous-mouse-drag)
+      (with-slots (newgl:cursor-pos) previous-mouse-drag
+        (with-slots (center radius) zoom-window
+          (incf center (- (cursor-position-to-complex newgl:cursor-pos
+                                                      zoom-window)
+                          (cursor-position-to-complex (glfw:get-cursor-position)
+                                                      zoom-window))))
+        (newgl:reload-object object)
+        (with-slots ((cp newgl:cursor-pos)) previous-mouse-drag
+          (setf cp (glfw:get-cursor-position)))))))
