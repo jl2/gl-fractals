@@ -6,9 +6,11 @@
 
 
 (defclass complex-fractal (newgl:geometry)
+   ((zoom-window :initarg :zoom-window)))
+
+(defclass complex-fractal-viewer (newgl:viewer)
   ((max-iterations :initform 320 :initarg :max-iterations :type fixnum)
    (aspect-ratio :initform 1.0 :type real)
-   (zoom-window :initarg :zoom-window)
    (mouse-press-info :initform nil)
    (mouse-release-info :initform nil)
    (previous-mouse-drag :initform nil))
@@ -43,7 +45,7 @@
       (incf center (complex (* (realpart radius) (realpart offset-percent))
                             (* (imagpart radius) (imagpart offset-percent)))))))
 
-(defmethod newgl:handle-key ((object complex-fractal) window key scancode action mod-keys)
+(defmethod newgl:handle-key ((object complex-fractal-viewer) window key scancode action mod-keys)
   (declare (ignorable window key scancode action mod-keys))
   (call-next-method)
   (let* ((pan-offset 0.025)
@@ -104,7 +106,7 @@
                                                          &key (zoom-window))
             (setf (slot-value new 'window) zoom-window))
 
-(defmethod newgl:handle-click ((object complex-fractal) window click)
+(defmethod newgl:handle-click ((object complex-fractal-viewer) window click)
   (declare (ignorable window))
   (with-slots (zoom-window previous-mouse-drag) object
     (with-slots (zoom-window previous-mouse-drag) object
@@ -124,7 +126,7 @@
            (setf previous-mouse-drag (change-class click 'complex-fractal-click :window zoom-window)))))
       t)))
 
-(defmethod newgl:handle-resize ((object complex-fractal) window width height)
+(defmethod newgl:handle-resize ((object complex-fractal-viewer) window width height)
   (declare (ignorable window))
   (with-slots (aspect-ratio) object
     (setf aspect-ratio (if (< height width )
@@ -132,7 +134,7 @@
                            (/ height width -1.0)))
     (newgl:assign-uniforms object)))
 
-(defmethod newgl:handle-scroll ((object complex-fractal) window cpos x-scroll y-scroll)
+(defmethod newgl:handle-scroll ((object complex-fractal-viewer) window cpos x-scroll y-scroll)
   (declare (ignorable window x-scroll y-scroll))
   (zoom-complex-fractal-window (if (< 0 y-scroll)
                               0.95
@@ -147,11 +149,10 @@
   (newgl:reload-object object)
   t)
 
-(defmethod newgl:update ((object complex-fractal) elapsed-time)
+(defmethod newgl:update ((object complex-fractal-viewer) elapsed-time)
   (declare (ignorable elapsed-time))
   (with-slots (zoom-window previous-mouse-drag) object
     (when previous-mouse-drag
-      (format t "Dragging: ~a~%" previous-mouse-drag)
       (with-slots (newgl:cursor-pos) previous-mouse-drag
         (with-slots (center radius) zoom-window
           (incf center (- (cursor-position-to-complex newgl:cursor-pos
